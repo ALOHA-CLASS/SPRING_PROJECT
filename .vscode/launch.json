@@ -9,6 +9,26 @@
             "projectName": "sample",
             "args": "",
             "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-PayPortoneApplication<pay-portone>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.aloha.pay_portone.PayPortoneApplication",
+            "projectName": "pay-portone",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        },
+        {
+            "type": "java",
+            "name": "Spring Boot-ShopApplication<shop>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "com.aloha.shop.ShopApplication",
+            "projectName": "shop",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
         }
     ]
 }
