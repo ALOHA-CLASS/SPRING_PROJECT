@@ -1,4 +1,4 @@
--- Active: 1714007442487@@127.0.0.1@3306@aloha
+-- Active: 1716205885858@@127.0.0.1@3306@aloha
 
 DROP TABLE IF EXISTS user_auth;
 

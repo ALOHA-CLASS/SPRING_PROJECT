@@ -12,6 +12,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import com.aloha.shop.security.LoginSuccessHandler;
 import com.aloha.shop.user.service.UserDetailServiceImpl;
 
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +29,9 @@ public class SecurityConfig {
     @Autowired
     private UserDetailServiceImpl userDetailServiceImpl;
 
+    @Autowired
+    private LoginSuccessHandler loginSuccessHandler; 
+
     // 스프링 시큐리티 설정 메소드
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -43,6 +47,7 @@ public class SecurityConfig {
         // ✅ 커스텀 로그인 페이지
         http.formLogin(login -> login.loginPage("/login")
                                      .loginProcessingUrl("/login")
+                                     .successHandler(loginSuccessHandler)
                                     //  .usernameParameter("id")
                                     //  .passwordParameter("pw")
                                      );

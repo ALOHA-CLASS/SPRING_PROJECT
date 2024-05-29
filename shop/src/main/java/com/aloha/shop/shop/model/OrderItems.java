@@ -7,8 +7,8 @@ import lombok.Data;
 @Data
 public class OrderItems {
     private String id;
-    private Orders order;
-    private Products product;
+    private String ordersId;
+    private String productsId;
     private int quantity = 1;
     private int price = 0;
     private Integer amount;

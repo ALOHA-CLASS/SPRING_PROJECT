@@ -1,8 +1,7 @@
--- Active: 1714007442487@@127.0.0.1@3306@aloha
+-- Active: 1716205885858@@127.0.0.1@3306@aloha
 
 DROP TABLE IF EXISTS user;
 
-TRUNCATE user;
 
 CREATE TABLE `user` (
 --   `NO` int NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -18,13 +17,15 @@ CREATE TABLE `user` (
 ) COMMENT='회원';
 
 
+TRUNCATE user;
+
 -- 사용자
 INSERT INTO user ( id, username, password, name, email )
-VALUES ( UUID(), 'user', '$2a$12$TrN..KcVjciCiz.5Vj96YOBljeVTTGJ9AUKmtfbGpgc9hmC7BxQ92', '사용자', 'user@mail.com' );
+VALUES ( 'u1b2c3d4-e5f6-7890-abcd-ef1234567890', 'user', '$2a$12$TrN..KcVjciCiz.5Vj96YOBljeVTTGJ9AUKmtfbGpgc9hmC7BxQ92', '사용자', 'user@mail.com' );
 
 -- 관리자
 INSERT INTO user ( id,  username, password, name, email )
-VALUES ( UUID(), 'admin', '$2a$12$TrN..KcVjciCiz.5Vj96YOBljeVTTGJ9AUKmtfbGpgc9hmC7BxQ92', '관리자', 'admin@mail.com' );
+VALUES ( 'u1b2c3d4-e5f6-7890-abcd-aa1234567890', 'admin', '$2a$12$TrN..KcVjciCiz.5Vj96YOBljeVTTGJ9AUKmtfbGpgc9hmC7BxQ92', '관리자', 'admin@mail.com' );
 
 -- 회원 전체 조회
 SELECT * FROM user;
