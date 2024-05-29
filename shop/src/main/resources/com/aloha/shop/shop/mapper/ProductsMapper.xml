@@ -19,6 +19,7 @@
               ,( SELECT id FROM files WHERE parent_table = 'products' AND parent_id = p.id AND is_main = 1 ) thumbnail_id 
               ,( SELECT name FROM categories WHERE code = p.category ) category_name
         FROM products p
+        ORDER BY p.created_at DESC
     </select>
 
     <!-- 조회 -->
@@ -39,8 +40,8 @@
 
     <!-- 등록 -->
     <insert id="insert">
-        INSERT INTO products ( id, name, category, content, price, stock )
-        VALUES ( #{id}, #{name}, #{category}, #{content}, #{price}, #{stock} )
+        INSERT INTO products ( id, name, category, description, content, price, stock )
+        VALUES ( #{id}, #{name}, #{category}, #{description}, #{content}, #{price}, #{stock} )
     </insert>
 
     <!-- 수정 -->

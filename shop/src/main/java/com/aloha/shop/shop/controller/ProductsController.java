@@ -6,12 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.aloha.shop.shop.model.Products;
 import com.aloha.shop.shop.service.ProductsService;
 
 import lombok.extern.slf4j.Slf4j;
+
 
 
 @Slf4j
@@ -22,6 +24,12 @@ public class ProductsController {
     @Autowired
     private ProductsService productsService;
 
+    /**
+     * 상품 목록
+     * @param model
+     * @return
+     * @throws Exception
+     */
     @GetMapping("")
     public String products(Model model) throws Exception {
         log.info(":::::::::: 상품 ::::::::::");
@@ -32,6 +40,27 @@ public class ProductsController {
 
         return "/products/index";
     }
+
+    @GetMapping("/{id}")
+    public String product(Model model
+                         ,@PathVariable("id") String id) throws Exception {
+        log.info(":::::::::: 상품 ::::::::::");
+        Products product = productsService.select(id);
+        model.addAttribute("product", product);
+        return "/products/detail";
+    }
     
     
 }
+
+
+
+
+
+
+
+
+
+
+
+
