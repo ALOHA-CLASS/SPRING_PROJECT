@@ -12,5 +12,6 @@ public class Categories {
     private String name;
     private Date createdAt;
     private Date updatedAt;
+    private int seq;
     
 }

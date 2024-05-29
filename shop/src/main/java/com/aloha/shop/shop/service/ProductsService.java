@@ -14,4 +14,7 @@ public interface ProductsService {
     public int update(Products prodcuts) throws Exception;
 
     public int delete(String deleteIdList) throws Exception;
+
+    // 썸네일 업로드
+    public void updloadThumbnail(Products products) throws Exception;
 }

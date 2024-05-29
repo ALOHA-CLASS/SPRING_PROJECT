@@ -9,6 +9,7 @@
     <select id="list" resultType="Categories">
         SELECT *
         FROM categories
+        ORDER BY seq ASC
     </select>
 
     <!-- 조회 -->
@@ -20,8 +21,8 @@
 
     <!-- 등록 -->
     <insert id="insert">
-        INSERT INTO categories ( id, code, name )
-        VALUES ( UUID(), #{code}, #{name} )
+        INSERT INTO categories ( id, code, name, seq )
+        VALUES ( UUID(), #{code}, #{name}, #{seq} )
     </insert>
 
     <!-- 수정 -->
@@ -29,6 +30,7 @@
         UPDATE categories
            SET code = #{code}
               ,name = #{name}
+              ,seq = #{seq}
               ,updated_at = now()
         WHERE id = #{id}
     </update>

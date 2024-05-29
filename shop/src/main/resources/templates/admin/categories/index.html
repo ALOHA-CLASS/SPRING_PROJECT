@@ -48,6 +48,7 @@
               <th scope="col">#</th>
               <th scope="col">코드</th>
               <th scope="col">카테고리</th>
+              <th scope="col">순서</th>
               <th scope="col">등록일자</th>
               <th scope="col"><i class="bi bi-gear"></i></th>
             </tr>
@@ -60,6 +61,7 @@
                 </th>
                 <td class="text-center"><span th:text="${category.code}"></span></td>
                 <td class="text-center"><span th:text="${category.name}"></span></td>
+                <td class="text-center"><span th:text="${category.seq}"></span></td>
                 <td class="text-center"><span th:text="${#dates.format(category.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>
                 <td class="text-center">
                   <a th:href="|/admin/categories/${category.id}|" class="btn btn-primary">수정</a>

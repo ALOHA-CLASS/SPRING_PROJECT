@@ -26,8 +26,12 @@
             <input type="text" class="form-control" id="code" th:field="*{code}"  />
           </div>
           <div class="mb-3">
-            <label for="content" class="form-label">카테고리</label>
-            <textarea class="form-control" id="name" rows="3" th:field="*{name}"></textarea>
+            <label for="name" class="form-label">카테고리</label>
+            <input type="text" class="form-control" id="name" th:field="*{name}"  />
+          </div>
+          <div class="mb-3">
+            <label for="seq" class="form-label">순서</label>
+            <input type="text" class="form-control" id="seq" th:field="*{seq}"  />
           </div>
         </div>
         <div class="d-grid gap-2">

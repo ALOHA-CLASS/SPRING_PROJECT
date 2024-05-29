@@ -47,6 +47,7 @@
             <tr class="text-center">
               <th scope="col">#</th>
               <th scope="col">상품명</th>
+              <th scope="col">카테고리</th>
               <th scope="col">가격</th>
               <th scope="col">재고수</th>
               <th scope="col">등록일자</th>
@@ -60,6 +61,7 @@
                   <input type="checkbox" name="deleteIdList" id="deleteIdList" class="form-check-input" th:value="${product.id}">
                 </th>
                 <td ><span th:text="${product.name}"></span></td>
+                <td class="text-center"><span th:text="${product.categoryName}"></span></td>
                 <td class="text-center"><span th:text="${product.price}"></span></td>
                 <td class="text-center"><span th:text="${product.stock}"></span></td>
                 <td class="text-center"><span th:text="${#dates.format(product.createdAt, 'yyyy-MM-dd HH:mm:ss')}"></span></td>

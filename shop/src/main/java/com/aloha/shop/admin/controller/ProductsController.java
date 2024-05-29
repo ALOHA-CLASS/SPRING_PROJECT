@@ -12,18 +12,23 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.aloha.shop.shop.model.Categories;
 import com.aloha.shop.shop.model.Products;
+import com.aloha.shop.shop.service.CategoriesService;
 import com.aloha.shop.shop.service.ProductsService;
 
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@Controller
+@Controller("adminProducts")
 @RequestMapping("/admin/products")
 public class ProductsController {
 
     @Autowired
     private ProductsService productsService;
+
+    @Autowired
+    private CategoriesService categoriesService;
     
     /**
      * 상품 관리
@@ -34,6 +39,8 @@ public class ProductsController {
     @GetMapping("")
     public String adminProducts(Model model) throws Exception {
         List<Products> products = productsService.list(); 
+        log.info(":::::::::: adminProducts ::::::::::");
+        log.info("products : " + products);
         model.addAttribute("products", products);
         return "/admin/products/index";
     }
@@ -41,21 +48,26 @@ public class ProductsController {
     /**
      * 상품 관리 - 등록 화면
      * @return
+     * @throws Exception 
      */
     @GetMapping("/insert")
-    public String adminProductsInsert() {
-     
+    public String adminProductsInsert(Model model) throws Exception {
+        List<Categories> categories = categoriesService.list();
+        model.addAttribute("categories", categories);
         return "/admin/products/insert";
     }
 
     /**
-     * 상품 관리 - 등록 화면
+     * 상품 관리 - 등록 처리
      * @param entity
      * @return
      * @throws Exception 
      */
     @PostMapping("/insert")
     public String adminProductsInsertPro(Products products) throws Exception {
+        log.info(":::::::::: 상품 관리 - 등록 처리 ::::::::::");
+        log.info(":::::::::: products ::::::::::");
+        log.info("products : " + products);
         int result = productsService.insert(products);
         if( result > 0 ) 
             return "redirect:/admin/products";
@@ -76,6 +88,8 @@ public class ProductsController {
     public String adminProducts(Model model, @PathVariable("id") String id) throws Exception {
         Products product = productsService.select(id); 
         log.info("product: " + product);
+        List<Categories> categories = categoriesService.list();
+        model.addAttribute("categories", categories);
         model.addAttribute("product", product);
         return "/admin/products/update";
     }
@@ -96,6 +110,12 @@ public class ProductsController {
             return "redirect:/admin/products/update?id=" + products.getId() + "&error";
     }
 
+    /**
+     * 상품 관리 - 삭제 처리
+     * @param deleteIdList
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/delete")
     public String adminProductsDelete(String[] deleteIdList) throws Exception {
         String ids = Arrays.stream(deleteIdList)
