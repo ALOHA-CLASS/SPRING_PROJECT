@@ -7,9 +7,9 @@ import lombok.Data;
 @Data
 public class Payments {
     private String id;
-    private Orders order;
+    private String ordersId;
     private String paymentMethod;
-    private String status;
+    private PaymentsStatus status;
     private Date paidAt;
     private Date createdAt;
     private Date updatedAt;

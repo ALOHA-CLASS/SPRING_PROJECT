@@ -11,7 +11,16 @@ import com.aloha.shop.shop.mapper.OrdersMapper;
 import com.aloha.shop.shop.model.OrderItems;
 import com.aloha.shop.shop.model.Orders;
 import com.aloha.shop.shop.model.Products;
+import com.aloha.shop.shop.model.Shipments;
+import com.aloha.shop.shop.model.ShipmentsStatus;
+import com.aloha.shop.user.model.Address;
+import com.aloha.shop.user.model.Users;
+import com.aloha.shop.user.service.AddressService;
+import com.aloha.shop.user.service.UserService;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @Service
 public class OrdersServiceImpl implements OrdersService {
 
@@ -20,6 +29,15 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Autowired
     private OrderItemsService orderItemsService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private AddressService addressService;
+
+    @Autowired
+    private ShipmentsService shipmentsService;
 
     @Autowired
     private OrdersMapper ordersMapper;
@@ -31,7 +49,15 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public Orders select(String id) throws Exception {
-        return ordersMapper.select(id);
+        Orders order = ordersMapper.select(id);
+        String userId = order.getUserId();
+        log.info("::::::::::: order's user :::::::::::");
+        log.info(" userId : " + userId);
+        Users user = userService.select(userId);
+        log.info(user.toString());
+        order.setUser(user);
+
+        return order;
     }
 
     @Override
@@ -78,11 +104,22 @@ public class OrdersServiceImpl implements OrdersService {
         orders.setTotalQuantity(totalQuantity);
         orders.setTotalCount(totalCount);
 
+        // 주문 등록
         int result = ordersMapper.insert(orders);
+
         if( result > 0 ) {
+            // 주문 항목 등록
             for (OrderItems orderItems : orderItemList) {
                 orderItemsService.insert(orderItems);
             }
+            // 배송 정보 등록
+            Shipments shipments = new Shipments();
+            List<Address> addressList = addressService.listByUserId(orders.getUserId());
+            Address address = addressList.stream().filter((add) -> {return add.isDefault();}).findFirst().get();
+            shipments.setOrderId(orderId);
+            shipments.setAddressId(address.getId());
+            shipments.setStatus(ShipmentsStatus.PENDING);
+            shipmentsService.insert(shipments);
         }
         return result;
     }

@@ -27,7 +27,8 @@
                     <a th:href="|/products/${product.id}|">
                         <!-- <img src="/img/about.png" class="w-100" alt="about"> -->
                         <div class="card-box">
-                            <img src="/img/about.png" th:src="|/files/img/${product.thumbnailId}|" class="w-100" alt="about">
+                            <img src="/img/about.png" th:src="|/files/img/${product.thumbnailId}|" class="w-100" alt="about"
+                                style="max-height: 460px; object-fit: contain;">
                         </div>
                     </a>
                     &nbsp;
@@ -50,13 +51,13 @@
                         </div>
                         <div class="d-flex justify-content-between my-2">
                             <div class="item">
-                                <button class="btn btn-secondary">-</button>
+                                <button class="btn btn-secondary" onclick="setQuantity(-1)">-</button>
                             </div>
                             <div class="item">
-                                <span id="quantity">1</span>
+                                <span id="quantity-value">1</span>
                             </div>
                             <div class="item">
-                                <button class="btn btn-secondary">+</button>
+                                <button class="btn btn-secondary" onclick="setQuantity(1)">+</button>
                             </div>
                         </div>
                         <div class="row my-5 row-gap-2">
@@ -66,11 +67,8 @@
                             <form action="/orders" method="post" class="col-12 col-md-6">
                                 <!-- CSRF TOKEN -->
                                 <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-                                <!-- <input type="text" id="productId" name="productId" th:value="${product.id}"> -->
-                                <input type="text" id="productId" name="productId" value="2l3m4n5o-6789-01ab-cdef-2345678901mn">
-                                <input type="text" id="productId" name="productId" value="3m4n5o6p-7890-12ab-cdef-3456789012no">
-                                <input type="text" id="quantity" name="quantity" value="1">
-                                <input type="text" id="quantity" name="quantity" value="2">
+                                <input type="hidden" id="productId" name="productId" th:value="${product.id}">
+                                <input type="hidden" id="quantity" name="quantity" value="1">
                                 <button type="submit" class="btn btn-success w-100">주문하기</button>
                             </form>
                         </div>
@@ -94,7 +92,17 @@
   </section>
   
 
-  <!-- masonry lib -->
-  <script async src="https://cdn.jsdelivr.net/npm/masonry-layout@4.2.2/dist/masonry.pkgd.min.js" integrity="sha384-GNFwBvfVxBkLMJpYMOABq3c+d3KnQxudP/mGPkzpZSTYykLBNsZEnG2D9G/X/+7D" crossorigin="anonymous"></script></body>
+  <script>
+
+    function setQuantity(value) {
+        let quantity = $('#quantity-value').text()
+        quantity = parseInt(quantity)
+        if( value == -1 && quantity == 1 ) return
+        quantity += value
+        $('#quantity').val(quantity)
+        $('#quantity-value').text(quantity)
+    }
+
+  </script>
 </body>
 </html>

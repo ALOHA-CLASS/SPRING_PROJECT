@@ -96,6 +96,12 @@ public class CategoriesController {
             return "redirect:/admin/categories/update?id=" + categories.getId() + "&error";
     }
 
+    /**
+     * 카테고리 관리 - 삭제 처리
+     * @param deleteIdList
+     * @return
+     * @throws Exception
+     */
     @PostMapping("/delete")
     public String adminCategoriesDelete(String[] deleteIdList) throws Exception {
         String ids = Arrays.stream(deleteIdList)

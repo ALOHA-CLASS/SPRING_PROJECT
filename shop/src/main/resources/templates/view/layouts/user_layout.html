@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="auto">
+<head>
+    <script src="/lib/bootstrap/js/color-modes.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="_csrf" th:content="${_csrf.token}" />
+    <meta name="_csrf_header" th:content="${_csrf.headerName}" />
+    <!-- link -->
+    <th:block th:replace="~{view/fragments/user/link::link}"></th:block>
+    <!-- script -->
+    <th:block th:replace="~{view/fragments/user/script::script}"></th:block>
+</head>
+<body>
+    <!-- theme -->
+    <th:block th:replace="~{view/fragments/user/theme::theme}"></th:block>
+    <!-- header -->
+    <th:block th:replace="~{view/fragments/user/header::header}"></th:block>
+    <div class="container-fluid">
+        <div class="row">
+
+            <!-- header -->
+            <th:block th:replace="~{view/fragments/user/side::side}"></th:block>
+            
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+                <!-- content -->
+                <th:block layout:fragment="content"></th:block>
+            </main>
+        </div>
+    </div>
+</body>
+</html>

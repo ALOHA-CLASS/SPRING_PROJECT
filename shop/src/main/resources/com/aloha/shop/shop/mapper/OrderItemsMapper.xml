@@ -11,6 +11,13 @@
         FROM order_items
     </select>
 
+    <!-- 목록 - 주문ID -->
+    <select id="listByOrderId" resultType="OrderItems">
+        SELECT *
+        FROM order_items
+        WHERE orders_id = #{ordersId}
+    </select>
+
     <!-- 조회 -->
     <select id="select" resultType="OrderItems">
         SELECT *

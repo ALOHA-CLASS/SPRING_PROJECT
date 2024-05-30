@@ -6,14 +6,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>관리자 > 상품관리 > 수정하기</title>
+    <title>관리자 > 카테고리 > 수정하기</title>
 </head>
 <body layout:fragment="content">
 
   
   <div class="container">
     <div class="my-5">
-      <h1>상품관리 > 수정하기</h1>
+      <h1>카테고리 > 수정하기</h1>
 
       <form action="/admin/categories/update" method="post" th:object="${category}">
         <!-- CSRF TOKEN -->
@@ -22,7 +22,7 @@
 
         <div class="inner py-5">
           <div class="mb-3">
-            <label for="name" class="form-label">코드</label>
+            <label for="code" class="form-label">코드</label>
             <input type="text" class="form-control" id="code" th:field="*{code}"  />
           </div>
           <div class="mb-3">

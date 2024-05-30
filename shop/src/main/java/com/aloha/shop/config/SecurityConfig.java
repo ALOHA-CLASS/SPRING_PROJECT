@@ -38,7 +38,8 @@ public class SecurityConfig {
 
         // ✅ 인가 설정
         http.authorizeRequests(requests -> requests
-                                            .antMatchers("/admin").hasRole("ADMIN")
+                                            // .antMatchers("/user", "/user/**").hasAnyRole("USER","ADMIN")
+                                            .antMatchers("/admin","/admin/**").hasRole("ADMIN")
                                             .antMatchers("/**").permitAll()
                                             .anyRequest().permitAll()
                                             );

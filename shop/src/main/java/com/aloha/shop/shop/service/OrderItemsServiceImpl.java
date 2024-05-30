@@ -7,12 +7,16 @@ import org.springframework.stereotype.Service;
 
 import com.aloha.shop.shop.mapper.OrderItemsMapper;
 import com.aloha.shop.shop.model.OrderItems;
+import com.aloha.shop.shop.model.Products;
 
 @Service
 public class OrderItemsServiceImpl implements OrderItemsService {
 
     @Autowired
     private OrderItemsMapper orderItemsMapper;
+
+    @Autowired
+    private ProductsService productsService;
 
     @Override
     public List<OrderItems> list() throws Exception {
@@ -40,6 +44,20 @@ public class OrderItemsServiceImpl implements OrderItemsService {
     public int delete(String id) throws Exception {
         int result = orderItemsMapper.delete(id);
         return result;
+    }
+
+    @Override
+    public List<OrderItems> listByOrderId(String ordersId) throws Exception {
+        List<OrderItems> orderItems = orderItemsMapper.listByOrderId(ordersId);
+
+        // 주문 항목 - 상품 정보 추가
+        for (OrderItems orderItem : orderItems) {
+            String productsId = orderItem.getProductsId();
+            Products product = productsService.select(productsId);
+            orderItem.setProduct(product);
+        }
+
+        return orderItems;
     }
     
 }

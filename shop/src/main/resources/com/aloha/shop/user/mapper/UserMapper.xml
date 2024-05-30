@@ -12,8 +12,7 @@
         <result property="username" column="username" />
         <result property="password" column="password" />
         <result property="name" column="name" />
-        <result property="email" column="email" />
-        <result property="profile" column="profile" />
+        <result property="phone" column="phone" />
         <result property="enabled" column="enabled" />
         <result property="createdAt" column="created_at" />
         <result property="updatedAt" column="updated_at" />
@@ -33,8 +32,7 @@
               ,u.username
               ,password
               ,name
-              ,email
-              ,profile
+              ,phone
               ,enabled
               ,created_at
               ,updated_at
@@ -50,14 +48,13 @@
               ,u.username
               ,password
               ,name
-              ,email
-              ,profile
+              ,phone
               ,enabled
               ,created_at
               ,updated_at
               ,auth
         FROM user u LEFT OUTER JOIN user_auth auth ON u.username = auth.username
-        WHERE u.username = #{username}
+        WHERE u.id = #{id}
     </select>
 
     <!-- 회원 가입 -->

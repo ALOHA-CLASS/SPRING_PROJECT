@@ -58,7 +58,7 @@
             <th:block th:each="product : ${products}">
               <tr class="align-middle">
                 <th class="text-center">
-                  <input type="checkbox" name="deleteIdList" id="deleteIdList" class="form-check-input" th:value="${product.id}">
+                  <input type="checkbox" name="deleteIdList" class="form-check-input" th:value="${product.id}">
                 </th>
                 <td ><span th:text="${product.name}"></span></td>
                 <td class="text-center"><span th:text="${product.categoryName}"></span></td>

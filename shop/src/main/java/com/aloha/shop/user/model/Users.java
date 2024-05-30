@@ -11,8 +11,7 @@ public class Users {
     private String username;
     private String password;
     private String name;
-    private String email;
-    private String profile;
+    private String phone;
     private Date createdAt;
     private Date updatedAt;
     private int enabled;

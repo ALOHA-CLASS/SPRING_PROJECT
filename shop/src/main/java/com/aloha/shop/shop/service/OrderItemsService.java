@@ -15,5 +15,8 @@ public interface OrderItemsService {
     public int update(OrderItems orderItems) throws Exception;
 
     public int delete(String id) throws Exception;
+
+    //------------------------------------------------------------------
+    public List<OrderItems> listByOrderId(String ordersId) throws Exception;
     
 }

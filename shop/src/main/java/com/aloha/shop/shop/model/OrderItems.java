@@ -14,4 +14,8 @@ public class OrderItems {
     private Integer amount;
     private Date createdAt;
     private Date updatedAt;
+
+    // -------------------------
+    private Products product;
+    
 }

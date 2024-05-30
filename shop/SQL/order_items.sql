@@ -19,3 +19,8 @@ INSERT INTO order_items (ID, ORDERS_ID, PRODUCTS_ID, QUANTITY, PRICE, AMOUNT)
 VALUES ( #{id}, #{ordersId}, #{productsId}, #{quantity}, #{price}, #{amount} )
 
 ;
+
+
+SELECT *
+FROM user
+WHERE id = 'u1b2c3d4-e5f6-7890-abcd-ef1234567890';
