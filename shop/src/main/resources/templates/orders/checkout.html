@@ -230,8 +230,10 @@
 
           IMP.request_pay({
               pg : 'kcp',                                 // PG사
+              // TODO: 결제 방식 선택 UI 추가, 옵션 뭐가 있는지 개발문서 확인하기
               pay_method : 'card',                        // 결제방식
-              merchant_uid: "IMP"+makeMerchantUid,        // 주문번호(상품ID)
+              // merchant_uid: "IMP"+makeMerchantUid,        // 주문번호(상품ID)
+              merchant_uid: ordersId,        // 주문번호(상품ID)
               name : productName,                         // 상품명
               amount : price,                              // 결제금액
               buyer_email : '',                        // 결제자 이메일
@@ -251,6 +253,10 @@
               } else {
                   // 결제 실패
                   console.log(rsp);
+                  let errorMsg = rsp.error_msg;
+                  errorMsg = errorMsg.replace(/\[|\]/g, '');
+                  // 결제 실패 페이졸 이동
+                  location.href = `/orders/fail?ordersId=${ordersId}&errorMsg=${errorMsg}`
               }
           });
       }

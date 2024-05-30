@@ -15,7 +15,7 @@ public class Files {
     private String originName;
     private String path;
     private long size;
-    private boolean isMain;
+    private Boolean isMain;
     private int seq;
     private Date createdAt;
     private Date updatedAt;

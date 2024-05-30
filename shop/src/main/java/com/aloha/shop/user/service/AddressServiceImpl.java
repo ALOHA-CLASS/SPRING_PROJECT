@@ -32,6 +32,17 @@ public class AddressServiceImpl implements AddressService {
 
     @Override
     public int update(Address address) throws Exception {
+        // 기본 배송지 처리
+        if( address.getIsDefault() ) {
+            List<Address> addressList = addressMapper.listByUserId(address.getUserId());
+            for (Address addr : addressList) {
+                // ❌ 이전 기존 배송지 해제
+                if( addr.getIsDefault() ) {
+                    addr.setIsDefault(false);
+                    update(addr);
+                }
+            }
+        }
         int result = addressMapper.update(address);
         return result;
     }

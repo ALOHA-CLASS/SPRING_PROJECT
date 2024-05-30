@@ -26,6 +26,7 @@ public class Orders {
     
     //----------------------------------------
     private Users user;
+    private Shipments shipments;
 
 }
 

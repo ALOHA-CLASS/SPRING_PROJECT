@@ -47,4 +47,12 @@ public class PaymentsServiceImpl implements PaymentsService {
     public Payments selectByOrdersId(String ordersId) {
         return paymentsMapper.selectByOrdersId(ordersId);
     }
+
+    @Override
+    public int merge(Payments payments) throws Exception {
+        if( payments == null || select(payments.getId()) == null ) 
+            return insert(payments);
+
+        return update(payments);
+    }
 }

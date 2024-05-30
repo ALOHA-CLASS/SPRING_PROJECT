@@ -10,13 +10,15 @@ import com.aloha.shop.shop.model.Orders;
 public interface OrdersMapper {
 
     public List<Orders> list() throws Exception;
-
-    public Orders select(String id) throws Exception;
-
-    public int insert(Orders ordere) throws Exception;
-
-    public int update(Orders ordere) throws Exception;
-
-    public int delete(String id) throws Exception;
     
+    public Orders select(String id) throws Exception;
+    
+    public int insert(Orders ordere) throws Exception;
+    
+    public int update(Orders ordere) throws Exception;
+    
+    public int delete(String id) throws Exception;
+
+    // ---------------------------------------------------------
+    public List<Orders> listByUserId(String userId) throws Exception;
 }

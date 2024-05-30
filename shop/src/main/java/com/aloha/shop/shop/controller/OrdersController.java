@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,7 +30,9 @@ import com.aloha.shop.user.service.AddressService;
 import lombok.extern.slf4j.Slf4j;
 
 
-
+/**
+ * TODO: 전체적으로 권한 설정 및 본인 확인 처리 필요
+ */
 @Slf4j
 @Controller("orders")
 @RequestMapping("/orders")
@@ -117,7 +120,7 @@ public class OrdersController {
 
         payments.setOrdersId(ordersId);
         payments.setStatus(PaymentsStatus.PAID);
-        paymentsService.insert(payments);
+        paymentsService.merge(payments);
 
         Shipments shipments = shipmentsService.selectByOrdersId(ordersId);
         log.info(":::::::::::::::::::: 주문 완료 - /order/success ::::::::::::::::::::");
@@ -125,7 +128,7 @@ public class OrdersController {
         log.info(shipments.toString());
         
         payments = paymentsService.selectByOrdersId(ordersId);
-        log.info(":::::::::::::::::::: shipments ::::::::::::::::::::");
+        log.info(":::::::::::::::::::: payments ::::::::::::::::::::");
         log.info(payments.toString());
 
         Orders order = ordersService.select(ordersId);
@@ -136,6 +139,50 @@ public class OrdersController {
         model.addAttribute("payments", payments);
         model.addAttribute("order", order);
         return "/orders/success";
+    }
+    
+
+    /**
+     * 주문 실패 
+     * @param model
+     * @param session
+     * @param ordersId
+     * @return
+     * @throws Exception 
+     */
+    @GetMapping("/fail")
+    public String orderFail(Model model
+                              ,Payments payments
+                              ,HttpSession session
+                              ,@RequestParam("ordersId") String ordersId
+                              ,@ModelAttribute String errorMsg) throws Exception {
+
+        payments.setOrdersId(ordersId);
+        payments.setStatus(PaymentsStatus.PAID);
+        paymentsService.insert(payments);
+
+        Shipments shipments = shipmentsService.selectByOrdersId(ordersId);
+        log.info(":::::::::::::::::::: 주문 완료 - /order/success ::::::::::::::::::::");
+        log.info(":::::::::::::::::::: shipments ::::::::::::::::::::");
+        log.info(shipments.toString());
+        
+        // ⭐ 결제 실패 시, 결제 상태 PENDING 으로 변경
+        payments = paymentsService.selectByOrdersId(ordersId);
+        payments.setStatus(PaymentsStatus.PENDING);
+        paymentsService.merge(payments);
+        log.info(":::::::::::::::::::: payments ::::::::::::::::::::");
+        log.info(payments.toString());
+
+        Orders order = ordersService.select(ordersId);
+        log.info(":::::::::::::::::::: orders ::::::::::::::::::::");
+        log.info(payments.toString());
+
+        log.info("[결제 실패] 에러 메시지 : " + errorMsg);
+
+        model.addAttribute("shipments", shipments);
+        model.addAttribute("payments", payments);
+        model.addAttribute("order", order);
+        return "/orders/fail";
     }
     
 
@@ -164,7 +211,7 @@ public class OrdersController {
         if( addressList == null || addressList.size() == 0) {
             return "redirect:/orders/checkout?noAddress";
         }
-        Address address = addressList.stream().filter((add) -> {return add.isDefault();}).findFirst().get();
+        Address address = addressList.stream().filter((add) -> {return add.getIsDefault();}).findFirst().get();
         log.info("기본 배송지 : " + address.getAddress());
         
         if( order == null ) return "redirect:/orders?error";

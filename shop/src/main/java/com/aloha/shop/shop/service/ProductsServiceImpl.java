@@ -40,7 +40,7 @@ public class ProductsServiceImpl implements ProductsService {
         List<Files> files = filesService.listByParent(thumbnail);
         for (Files file : files) {
             log.info("썸네일 : " + file);
-            if( file.isMain() ) {
+            if( file.getIsMain() ) {
                 thumbnail = file;
             }
         }
@@ -93,7 +93,7 @@ public class ProductsServiceImpl implements ProductsService {
             thumbnail.setFile(thumbnailFile);
             thumbnail.setParentTable(Products.TABLE_NAME);
             thumbnail.setParentId(products.getId());
-            thumbnail.setMain(true);        // 대표 파일 (isMain=true)
+            thumbnail.setIsMain(true);        // 대표 파일 (isMain=true)
             thumbnail.setSeq(1);               // 순서 : 1
             filesService.upload(thumbnail);        // 썸네일 파일 업로드
         }

@@ -15,7 +15,7 @@
     <div class="my-5">
       <h1>배송지관리 > 수정하기</h1>
 
-      <form action="/admin/categories/update" method="post" th:object="${address}">
+      <form action="/user/address/update" method="post" th:object="${address}">
         <!-- CSRF TOKEN -->
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
         <input type="hidden" name="id" th:field="*{id}">
@@ -51,7 +51,7 @@
           </div>
           <div class="mb-3">
             <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="isDefault" 
+              <input class="form-check-input" type="checkbox" id="isDefault" name="isDefault" value="true"
                      th:checked="${address.isDefault == true}">
               <label class="form-check-label" for="isDefault">
                 기본 배송지

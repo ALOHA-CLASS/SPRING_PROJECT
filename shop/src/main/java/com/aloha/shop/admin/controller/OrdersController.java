@@ -18,6 +18,7 @@ public class OrdersController {
      */
     @GetMapping("")
     public String adminOrders() {
+        log.info("::::::::::::::::::::: 주문 관리 :::::::::::::::::::::");
         return "/admin/orders/index";
     }
     

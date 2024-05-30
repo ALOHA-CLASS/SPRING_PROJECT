@@ -36,9 +36,10 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
+        
         // ✅ 인가 설정
         http.authorizeRequests(requests -> requests
-                                            // .antMatchers("/user", "/user/**").hasAnyRole("USER","ADMIN")
+                                            .antMatchers("/user", "/user/**").hasAnyRole("USER","ADMIN")
                                             .antMatchers("/admin","/admin/**").hasRole("ADMIN")
                                             .antMatchers("/**").permitAll()
                                             .anyRequest().permitAll()

@@ -44,19 +44,28 @@ public class OrdersServiceImpl implements OrdersService {
 
     @Override
     public List<Orders> list() throws Exception {
-        return ordersMapper.list();
+        List<Orders> orders = ordersMapper.list();
+        for (Orders order : orders) {
+            Users user = userService.select(order.getUserId());
+            order.setUser(user);
+            Shipments shipments = shipmentsService.selectByOrdersId(order.getId());
+            if( shipments != null ) order.setShipments(shipments);
+        }
+        return orders;
     }
 
     @Override
     public Orders select(String id) throws Exception {
         Orders order = ordersMapper.select(id);
         String userId = order.getUserId();
-        log.info("::::::::::: order's user :::::::::::");
+        log.info("::::::::::: orders ~ user :::::::::::");
         log.info(" userId : " + userId);
         Users user = userService.select(userId);
         log.info(user.toString());
         order.setUser(user);
-
+        log.info("::::::::::: orders ~ shipments :::::::::::");
+        Shipments shipments = shipmentsService.selectByOrdersId(id);
+        if( shipments != null ) order.setShipments(shipments);
         return order;
     }
 
@@ -115,7 +124,7 @@ public class OrdersServiceImpl implements OrdersService {
             // 배송 정보 등록
             Shipments shipments = new Shipments();
             List<Address> addressList = addressService.listByUserId(orders.getUserId());
-            Address address = addressList.stream().filter((add) -> {return add.isDefault();}).findFirst().get();
+            Address address = addressList.stream().filter((add) -> {return add.getIsDefault();}).findFirst().get();
             shipments.setOrderId(orderId);
             shipments.setAddressId(address.getId());
             shipments.setStatus(ShipmentsStatus.PENDING);
@@ -134,6 +143,18 @@ public class OrdersServiceImpl implements OrdersService {
     public int delete(String id) throws Exception {
         int result = ordersMapper.delete(id);
         return result;
+    }
+
+    @Override
+    public List<Orders> listByUserId(String userId) throws Exception {
+        List<Orders> orders = ordersMapper.listByUserId(userId);
+        for (Orders order : orders) {
+            Users user = userService.select(order.getUserId());
+            order.setUser(user);
+            Shipments shipments = shipmentsService.selectByOrdersId(order.getId());
+            if( shipments != null ) order.setShipments(shipments);
+        }
+        return orders;
     }
     
 }

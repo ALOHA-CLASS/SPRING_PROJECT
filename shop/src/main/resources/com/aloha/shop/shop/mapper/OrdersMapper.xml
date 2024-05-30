@@ -42,4 +42,12 @@
         WHERE id = #{id}
     </delete>
 
+
+    <!-- 목록 - userId -->
+    <select id="listByUserId" resultType="Orders">
+        SELECT *
+        FROM orders
+        WHERE user_id = #{userId}
+    </select>
+
 </mapper>

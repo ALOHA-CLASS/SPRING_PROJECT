@@ -94,6 +94,32 @@ public class AddressController {
 
 
     /**
+     * 배송지 관리 - 배송지 수정 처리
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/update")
+    public String addressUpdate(Address address, String isDefault
+                               ,HttpSession session) throws Exception {
+        Users user = (Users) session.getAttribute("user");
+        address.setUserId(user.getId());
+        String addrssId = address.getId();
+        log.info("::::::::::::::::::::: 배송지 관리 - 수정 처리 :::::::::::::::::::::}");
+        log.info("::::::::::::::::::::: address :::::::::::::::::::::");
+        log.info(address.toString());
+        log.info(isDefault);
+
+        int result = addressService.update(address);
+        if( result > 0 ) {
+            return "redirect:/user/address";
+        }
+        else {
+            return "redirect:/user/address/"+ addrssId +"?error";
+        }
+    }
+
+
+    /**
      * 배송지 관리 - 배송지 삭제 처리
      * @param deleteIdList
      * @return
