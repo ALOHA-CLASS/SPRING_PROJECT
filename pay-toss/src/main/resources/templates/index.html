@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <script src="https://js.tosspayments.com/v1/payment-widget"></script>
+</head>
+<body>
+  <center>
+    <h1>Toss 결제 위젯 연동</h1>
+
+    <table>
+        <tr>
+            <td><label for="orderName">주문제목(상품명)</label></td>
+            <td><input type="text" name="orderName" id="orderName" placeholder="주문제목(상품명)"
+                    value="알로하 키보드 외 3건"></td>
+        </tr>
+        <tr>
+            <td><label for="price">결제금액</label></td>
+            <td><input type="text" name="price" id="price" placeholder="결제금액" 
+                    value="1000"></td>
+        </tr>
+        <tr>
+            <td><label for="customerName">이름</label></td>
+            <td><input type="text" name="customerName" id="customerName" placeholder="이름" value="알로하"></td>
+        </tr>
+        <tr>
+            <td><label for="customerMobilePhone">전화번호</label></td>
+            <td><input type="text" name="customerMobilePhone" id="customerMobilePhone" placeholder="전화번호"
+                      value="01012341234"></td>
+        </tr>
+        <tr>
+            <td><label for="customerEmail">이메일</label></td>
+            <td><input type="text" name="customerEmail" id="customerEmail" placeholder="이메일"></td>
+        </tr>
+    </table>
+
+    <div class="container" style="width: 600px;">
+      <!-- 할인 쿠폰 -->
+      <div>
+        <input type="checkbox" id="coupon-box" />
+        <label for="coupon-box"> 500원 쿠폰 적용 </label>
+      </div>
+      <!-- 결제 UI, 이용약관 UI 영역 -->
+      <div id="payment-method"></div>
+      <div id="agreement"></div>
+      
+      
+      <!-- 결제하기 버튼 -->
+      <div>
+        <button id="payment-button" style="padding: 10px; cursor: pointer;">결제하기</button>
+      </div>
+    </div>
+  </center>
+
+  
+
+  <script>
+    const coupon = document.getElementById("coupon-box");
+    const button = document.getElementById("payment-button");
+    const price = document.getElementById('price').value
+
+    // 주문ID
+    let today = new Date();   
+    let hours = today.getHours(); // 시
+    let minutes = today.getMinutes();  // 분
+    let seconds = today.getSeconds();  // 초
+    let milliseconds = today.getMilliseconds();
+    let makeMerchantUid = hours +  minutes + seconds + milliseconds;
+    let orderId = "TOSS"+makeMerchantUid
+
+
+    
+    // 구매자의 고유 아이디를 불러와서 customerKey로 설정하세요.
+    // 이메일・전화번호와 같이 유추가 가능한 값은 안전하지 않습니다.
+    const widgetClientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";     // 테스트 클라이언트 키
+    const customerKey = "TUOLOk1ObggnVXme1qH1F";                          // userId
+    const paymentWidget = PaymentWidget(widgetClientKey, customerKey); // 회원 결제
+    // const paymentWidget = PaymentWidget(widgetClientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
+
+    const paymentMethodWidget = paymentWidget.renderPaymentMethods(
+      "#payment-method",
+      { value: price },
+      { variantKey: "DEFAULT" }
+    );
+
+    paymentWidget.renderAgreement(
+      "#agreement", 
+      { variantKey: "AGREEMENT" }
+    );
+
+    coupon.addEventListener("change", function () {
+      if (coupon.checked) {
+        paymentMethodWidget.updateAmount(price - 500);
+      } else {
+        paymentMethodWidget.updateAmount(price);
+      }
+    });
+
+    button.addEventListener("click", function () {
+      // 결제를 요청하기 전에 orderId, price를 서버에 저장하세요. 
+      // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.  
+
+      // 결제 정보 가져오기
+      let orderName = document.getElementById('orderName').value
+      let customerEmail = document.getElementById('customerEmail').value
+      let customerName = document.getElementById('customerName').value
+      let customerMobilePhone = document.getElementById('customerMobilePhone').value
+
+
+      paymentWidget.requestPayment({
+        orderId: orderId,
+        orderName: orderName,
+        successUrl: window.location.origin + "/success",
+        failUrl: window.location.origin + "/fail",
+        customerEmail: customerEmail,
+        customerName: customerName,
+        customerMobilePhone: customerMobilePhone,
+      });
+    });
+  </script>
+</body>
+</html>

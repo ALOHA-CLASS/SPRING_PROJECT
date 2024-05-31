@@ -69,8 +69,7 @@ public class OrdersController {
 
     /**
      * 주문 등록
-     * 1. product - id, quantity
-     * 2. 
+     * - product - id, quantity
      * @param entity
      * @return
      * @throws Exception 
@@ -116,22 +115,22 @@ public class OrdersController {
     public String orderSuccess(Model model
                               ,Payments payments
                               ,HttpSession session
-                              ,@RequestParam("ordersId") String ordersId) throws Exception {
+                              ,@RequestParam("orderId") String orderId) throws Exception {
 
-        payments.setOrdersId(ordersId);
+        payments.setOrdersId(orderId);
         payments.setStatus(PaymentsStatus.PAID);
         paymentsService.merge(payments);
 
-        Shipments shipments = shipmentsService.selectByOrdersId(ordersId);
+        Shipments shipments = shipmentsService.selectByOrdersId(orderId);
         log.info(":::::::::::::::::::: 주문 완료 - /order/success ::::::::::::::::::::");
         log.info(":::::::::::::::::::: shipments ::::::::::::::::::::");
         log.info(shipments.toString());
         
-        payments = paymentsService.selectByOrdersId(ordersId);
+        payments = paymentsService.selectByOrdersId(orderId);
         log.info(":::::::::::::::::::: payments ::::::::::::::::::::");
         log.info(payments.toString());
 
-        Orders order = ordersService.select(ordersId);
+        Orders order = ordersService.select(orderId);
         log.info(":::::::::::::::::::: orders ::::::::::::::::::::");
         log.info(payments.toString());
 
@@ -154,26 +153,26 @@ public class OrdersController {
     public String orderFail(Model model
                               ,Payments payments
                               ,HttpSession session
-                              ,@RequestParam("ordersId") String ordersId
+                              ,@RequestParam("orderId") String orderId
                               ,@ModelAttribute String errorMsg) throws Exception {
 
-        payments.setOrdersId(ordersId);
+        payments.setOrdersId(orderId);
         payments.setStatus(PaymentsStatus.PAID);
         paymentsService.insert(payments);
 
-        Shipments shipments = shipmentsService.selectByOrdersId(ordersId);
+        Shipments shipments = shipmentsService.selectByOrdersId(orderId);
         log.info(":::::::::::::::::::: 주문 완료 - /order/success ::::::::::::::::::::");
         log.info(":::::::::::::::::::: shipments ::::::::::::::::::::");
         log.info(shipments.toString());
         
         // ⭐ 결제 실패 시, 결제 상태 PENDING 으로 변경
-        payments = paymentsService.selectByOrdersId(ordersId);
+        payments = paymentsService.selectByOrdersId(orderId);
         payments.setStatus(PaymentsStatus.PENDING);
         paymentsService.merge(payments);
         log.info(":::::::::::::::::::: payments ::::::::::::::::::::");
         log.info(payments.toString());
 
-        Orders order = ordersService.select(ordersId);
+        Orders order = ordersService.select(orderId);
         log.info(":::::::::::::::::::: orders ::::::::::::::::::::");
         log.info(payments.toString());
 

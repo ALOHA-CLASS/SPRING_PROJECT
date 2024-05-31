@@ -61,6 +61,7 @@ public class SecurityConfig {
         http.rememberMe(me -> me.key("aloha")
                                 .tokenRepository(tokenRepository())
                                 .tokenValiditySeconds(60 * 60 * 24 * 7)
+                                .authenticationSuccessHandler(loginSuccessHandler)
                                 // .rememberMeParameter("auto-login")
                                 );
 

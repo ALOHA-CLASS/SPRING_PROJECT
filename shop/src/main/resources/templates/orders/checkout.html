@@ -208,7 +208,7 @@
       IMP.init("imp48458232"); 
       
 
-      var ordersId = "[[${order.id}]]"
+      var orderId = "[[${order.id}]]"
       var today = new Date();   
       var hours = today.getHours(); // 시
       var minutes = today.getMinutes();  // 분
@@ -233,7 +233,7 @@
               // TODO: 결제 방식 선택 UI 추가, 옵션 뭐가 있는지 개발문서 확인하기
               pay_method : 'card',                        // 결제방식
               // merchant_uid: "IMP"+makeMerchantUid,        // 주문번호(상품ID)
-              merchant_uid: ordersId,        // 주문번호(상품ID)
+              merchant_uid: orderId,        // 주문번호(상품ID)
               name : productName,                         // 상품명
               amount : price,                              // 결제금액
               buyer_email : '',                        // 결제자 이메일
@@ -247,7 +247,7 @@
                   // 결제 성공
                   console.log(rsp);
                   // 결제 완료 페이지로 이동
-                  location.href = `/orders/success?ordersId=${ordersId}`
+                  location.href = `/orders/success?orderId=${orderId}`
 
                   // 또는 ajax 요청 처리 후 이동
               } else {
@@ -255,8 +255,8 @@
                   console.log(rsp);
                   let errorMsg = rsp.error_msg;
                   errorMsg = errorMsg.replace(/\[|\]/g, '');
-                  // 결제 실패 페이졸 이동
-                  location.href = `/orders/fail?ordersId=${ordersId}&errorMsg=${errorMsg}`
+                  // 결제 실패 페이지로 이동
+                  location.href = `/orders/fail?orderId=${orderId}&errorMsg=${errorMsg}`
               }
           });
       }

@@ -6,9 +6,7 @@
     <title>결제 모듈</title>
 </head>
 <body>
-    <h1>결제 모듈 연동</h1>
-    <h3>PortOne PG사 연동하기</h3>
-
+    <h1>PortOne 결제 모듈 연동</h1>
     <table>
         <tr>
             <td><label for="productName">상품명</label></td>
@@ -44,7 +42,7 @@
     
     
     <div>
-        <button onclick="requestPay()">결제하기</button>
+        <button onclick="requestPay()" style="padding: 10px; cursor: pointer;">결제하기</button>
     </div>
 
 
@@ -64,7 +62,7 @@
         var seconds = today.getSeconds();  // 초
         var milliseconds = today.getMilliseconds();
         var makeMerchantUid = hours +  minutes + seconds + milliseconds;
-
+        var orderId = "IMP"+makeMerchantUid
         
         
         // 3️⃣ 결제 요청하기
@@ -80,7 +78,7 @@
             IMP.request_pay({
                 pg : 'kcp',                                 // PG사
                 pay_method : 'card',                        // 결제방식
-                merchant_uid: "IMP"+makeMerchantUid,        // 주문번호(상품ID)
+                merchant_uid: orderId,        // 주문번호(상품ID)
                 name : productName,                         // 상품명
                 amount : price,                              // 결제금액
                 buyer_email : email,                        // 결제자 이메일
@@ -94,12 +92,12 @@
                     // 결제 성공
                     console.log(rsp);
                     // 결제 완료 페이지로 이동
-                    location.href = 'success?result=ok&proudctId=' + ("IMP"+makeMerchantUid)
-
-                    // 또는 ajax 요청 처리 후 이동
+                    location.href = `success?orderId=${orderId}`
                 } else {
                     // 결제 실패
                     console.log(rsp);
+                    // 결제 실패 페이지로 이동
+                    location.href = `fail?orderId=${orderId}`
                 }
             });
         }
